@@ -32,6 +32,9 @@ model Category {
 
     name     String    @unique
     products Product[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Product {
@@ -41,7 +44,7 @@ model Product {
     imageUrl String
 
     ingredients     Ingredient[]
-    productVariants ProductVariants[]
+    productVariants ProductVariant[]
 
     category   Category @relation(fields: [categoryId], references: [id])
     categoryId Int
@@ -50,7 +53,7 @@ model Product {
     updatedAt DateTime @updatedAt
 }
 
-model ProductVariants {
+model ProductVariant {
     id Int @id @default(autoincrement())
 
     price     Int
@@ -67,6 +70,9 @@ model Ingredient {
     id Int @id @default(autoincrement())
 
     name String
+
+    price    Int
+    imageUrl String
 
     products  Product[]
     cartItems CartItem[]
@@ -94,8 +100,8 @@ model Cart {
 model CartItem {
     id Int @id @default(autoincrement())
 
-    productVariants   ProductVariants @relation(fields: [productVariantsId], references: [id])
-    productVariantsId Int
+    productVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
+    productVariantId Int
 
     cart   Cart @relation(fields: [cartId], references: [id])
     cartId Int
