@@ -2,19 +2,22 @@
 import React from "react";
 import { FilterCheckbox, FilterCheckboxProps } from "./filter-checkbox";
 import { Input } from "../ui/input";
+import { Skeleton } from "../ui/skeleton";
 
 type Item = FilterCheckboxProps;
 
 interface Props {
 	title: string;
 	items: Item[];
-	defaultItems: Item[];
+	defaultItems?: Item[];
 	limit?: number;
+	loading?: boolean;
 	searchInputPlaceHolder?: string;
-	onChange?: (values: string[]) => void;
+	onClickCheckBox?: (id: string) => void;
 	defaultValue?: string[];
-
+	selectedValues?: Set<string>;
 	className?: string;
+	name?: string;
 }
 
 export const FiltersCheckboxGroup: React.FC<Props> = ({
@@ -22,19 +25,39 @@ export const FiltersCheckboxGroup: React.FC<Props> = ({
 	items,
 	defaultItems,
 	limit = 5,
+	loading,
 	searchInputPlaceHolder = "Search...",
-	onChange,
+	onClickCheckBox,
+	selectedValues,
 	defaultValue,
 	className,
+	name,
 }) => {
 	const [showAll, setShowAll] = React.useState(false);
 	const [searchValue, setSearchValue] = React.useState("");
 
+	if (loading) {
+		return (
+			<div className={className}>
+				<p className='mb-3 font-bold'>{title}</p>
+				{...Array(limit)
+					.fill(0)
+					.map((_, idx) => (
+						<Skeleton
+							key={idx}
+							className='h-6 mb-4 rounded-[8px]'
+						/>
+					))}
+				<Skeleton className='w-[28px] h-6 mb-4 rounded-[8px]' />
+			</div>
+		);
+	}
+
 	const list = showAll
 		? items.filter((el) =>
-				el.text.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-		  )
-		: defaultItems.slice(0, limit);
+				el.text.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()),
+			)
+		: (defaultItems || items).slice(0, limit);
 
 	const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);
@@ -59,8 +82,9 @@ export const FiltersCheckboxGroup: React.FC<Props> = ({
 						text={el.text}
 						value={el.value}
 						endAdornment={el.endAdornment}
-						checked={false}
-						onCheckedChange={(ids) => console.log(ids)}
+						checked={selectedValues?.has(el.value)}
+						onCheckedChange={() => onClickCheckBox?.(el.value)}
+						name={name}
 					/>
 				))}
 			</div>
