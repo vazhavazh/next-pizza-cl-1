@@ -3,8 +3,21 @@ import { Filters } from "@/components/shared/filters";
 import { ProductsListGroup } from "@/components/shared/products-list-group";
 import { Title } from "@/components/shared/title";
 import { TopBar } from "@/components/shared/top-bar";
+import { prisma } from "@/prisma/prisma-client";
 
-export default function Home() {
+export default async function Home() {
+	const categories = await prisma.category.findMany({
+		include: {
+			products: {
+				include: {
+					ingredients: true,
+					productVariants: true,
+				},
+			},
+		},
+	});
+
+	
 	return (
 		<>
 			<Container className='mt-10'>
@@ -14,7 +27,11 @@ export default function Home() {
 					className='font-extrabold'
 				/>
 			</Container>
-			<TopBar />
+			<TopBar
+				categories={categories.filter(
+					(category) => category.products.length > 0,
+				)}
+			/>
 
 			<Container className='mt-10 pb-14'>
 				<div className='flex gap-[80]'>
@@ -26,117 +43,17 @@ export default function Home() {
 					{/* product list */}
 					<div className='flex-1'>
 						<div className='flex flex-col gap-16'>
-							<ProductsListGroup
-								title='Pizza'
-								items={[
-									{
-										id: 1,
-										name: "Margherita",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0198bf57bc517218ab93c762f4b0193e.avif",
-										items: [{ price: 8 }],
-									},
-									{
-										id: 2,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 3,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 4,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 5,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 6,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 7,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-								]}
-								categoryId={1}
-							/>
-
-							<ProductsListGroup
-								title='Combo'
-								items={[
-									{
-										id: 1,
-										name: "Margherita",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0198bf57bc517218ab93c762f4b0193e.avif",
-										items: [{ price: 8 }],
-									},
-									{
-										id: 2,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 3,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 4,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 5,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 6,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-									{
-										id: 7,
-										name: "Pepperoni",
-										imageUrl:
-											"https://media.dodostatic.net/image/r:584x584/0199b8e98ec871ab8a443887a3e1a136.avif",
-										items: [{ price: 10 }],
-									},
-								]}
-								categoryId={2}
-							/>
+							{categories.map(
+								(category) =>
+									category.products.length > 0 && (
+										<ProductsListGroup
+											title={category.name}
+											key={category.id}
+											items={category.products}
+											categoryId={category.id}
+										/>
+									),
+							)}
 						</div>
 					</div>
 				</div>
@@ -144,7 +61,3 @@ export default function Home() {
 		</>
 	);
 }
-
-
-
-
