@@ -1,11 +1,10 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Container } from "./container";
 import Image from "next/image";
-import { Button } from "../ui/button";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { SearchInput } from "./search-input";
+import {Button} from "../ui"
+import { Container, SearchInput } from "./index";
 
 interface Props {
 	className?: string;

@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import { Title } from "./title";
 import { cn } from "@/lib/utils";
-import { ProductCard } from "./product-card";
+import { Title, ProductCard } from "./index";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/store/category";
 
@@ -52,7 +51,7 @@ export const ProductsListGroup: React.FC<Props> = ({
 			/>
 
 			<div className={cn("grid grid-cols-3 gap-[50px]", listClassName)}>
-				{items.map((el, idx) => (
+				{items.map((el) => (
 					<ProductCard
 						key={el.id}
 						id={el.id}

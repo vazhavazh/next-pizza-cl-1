@@ -1,8 +1,9 @@
 "ise client";
 import React from "react";
-import { FilterCheckbox, FilterCheckboxProps } from "./filter-checkbox";
-import { Input } from "../ui/input";
-import { Skeleton } from "../ui/skeleton";
+
+import { Input, Skeleton } from "../ui";
+import { FilterCheckboxProps } from "./filter-checkbox";
+import {FilterCheckbox} from "./index"
 
 type Item = FilterCheckboxProps;
 
@@ -29,7 +30,7 @@ export const FiltersCheckboxGroup: React.FC<Props> = ({
 	searchInputPlaceHolder = "Search...",
 	onClickCheckBox,
 	selectedValues,
-	defaultValue,
+	
 	className,
 	name,
 }) => {
