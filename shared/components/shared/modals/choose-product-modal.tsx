@@ -27,7 +27,7 @@ export const ChooseProductModal: React.FC<ChooseProductModalProps> = ({
 			onOpenChange={() => router.back()}>
 			<DialogContent
 				className={cn(
-					"p-0 w-[1060px] max-w-[1060px] min-h-[500px] bg-white overflow-hidden",
+					"p-0 w-[1060px] max-w-[1060px] min-h-[500px] max-h-[650px] bg-white overflow-hidden items-start",
 					className,
 				)}>
 				<VisuallyHidden.Root>
@@ -49,5 +49,3 @@ export const ChooseProductModal: React.FC<ChooseProductModalProps> = ({
 		</Dialog>
 	);
 };
-
-// 09:02:22

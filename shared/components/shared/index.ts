@@ -16,3 +16,4 @@ export { VariantSelector } from "./variant-selector";
 export * from "./modals";
 export { ChooseProductForm } from "./choose-product-form";
 export { ChoosePizzaForm } from "./choose-pizza-form";
+export { IngredientItem } from "./ingredient-item";

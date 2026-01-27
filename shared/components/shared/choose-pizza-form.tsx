@@ -1,6 +1,6 @@
 import { cn } from "@/shared/lib/utils";
 import React from "react";
-import { PizzaImage, Title, VariantSelector } from "./index";
+import { IngredientItem, PizzaImage, Title, VariantSelector } from "./index";
 import { Button } from "../ui";
 import {
 	PizzaSize,
@@ -32,14 +32,17 @@ export const ChoosePizzaForm: React.FC<ChoosePizzaFormProps> = ({
 	const [type, setType] = React.useState<PizzaType>(1);
 	const textDetails = "30 cm,  traditional dough 30, 590 g";
 	const totalPrice = 35;
- console.log(ingredients)
+	console.log(ingredients);
 	return (
 		<div className={cn(className, "flex flex-1")}>
-			<PizzaImage
-				src={imageUrl}
-				size={size}
-			/>
-		
+			
+				<PizzaImage
+				className="mb-12"
+					src={imageUrl}
+					size={size}
+				/>
+			
+
 			<div className='w-[490px] bg-[#f7f6f5] p-7'>
 				<Title
 					text={name}
@@ -60,7 +63,19 @@ export const ChoosePizzaForm: React.FC<ChoosePizzaFormProps> = ({
 					/>
 				</div>
 
-				<div className="grid grid-cols-3 gap-3 "></div>
+				<div className='p-5 rounded-md bg-gray-50 h-[420px] overflow-auto scrollbar'>
+					<div className='grid grid-cols-3 gap-3 '>
+						{ingredients.map((ingredient) => (
+							<IngredientItem
+								key={ingredient.id}
+								imageUrl={ingredient.imageUrl}
+								name={ingredient.name}
+								price={ingredient.price}
+								onClick={onClickAdd}
+							/>
+						))}
+					</div>
+				</div>
 				<Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'>
 					Add to bucket for {totalPrice} €
 				</Button>
@@ -68,3 +83,6 @@ export const ChoosePizzaForm: React.FC<ChoosePizzaFormProps> = ({
 		</div>
 	);
 };
+
+
+09:27:43
