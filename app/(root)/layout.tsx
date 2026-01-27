@@ -1,5 +1,6 @@
+import { Header } from "@/shared/components/shared";
 import type { Metadata } from "next";
-import { Header } from "@/components/shared/header";
+
 
 export const metadata: Metadata = {
 	title: "Next Pizza | Main",
@@ -24,4 +25,3 @@ export default function HomeLayout({
 }
 
 
-08:35:00

@@ -1,0 +1,67 @@
+import React from "react";
+import { cn } from "@/shared/lib/utils";
+import Image from "next/image";
+import { ArrowRight, ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/shared/components/ui";
+import { Container, SearchInput } from "./index";
+
+interface Props {
+	className?: string;
+}
+
+export const Header: React.FC<Props> = ({ className }) => {
+	return (
+		<header className={cn("border, border-b", className)}>
+			<Container className='flex items-center justify-between py-8'>
+				{/* Left side */}
+				<Link href='/'>
+					<div className='flex items-center gap-4 '>
+						<Image
+							src='/logo.png'
+							alt='Logo'
+							height={35}
+							width={35}
+						/>
+						<div>
+							<h1 className='text-2xl font-black uppercase'>Next Pizza</h1>
+							<p className='text-sm leading-3 text-gray-400'>
+								{" "}
+								the most delicious
+							</p>
+						</div>
+					</div>
+				</Link>
+
+				<div className='flex-1 mx-10'>
+					<SearchInput />
+				</div>
+
+				{/* Right side */}
+				<div className='flex items-center gap-3'>
+					<Button
+						variant='outline'
+						className='flex items-center gap-1'>
+						<User size={16} />
+						Log in
+					</Button>
+
+					<div>
+						<Button className='relative group'>
+							<b>221 €</b>
+							<span className='h-full w-[1px] bg-white/30 mx-3'></span>
+							<div className='flex items-center gap-1 transition duration-300 group-hover:opacity-0'>
+								<ShoppingCart
+									className='relative w-4 h-4'
+									strokeWidth={2}
+								/>
+								<b>3</b>
+							</div>
+							<ArrowRight className='absolute w-5 transition duration-300 -translate-x-2 opacity-0 right-5 group-hover:opacity-100 group-hover:translate-x-0' />
+						</Button>
+					</div>
+				</div>
+			</Container>
+		</header>
+	);
+};
