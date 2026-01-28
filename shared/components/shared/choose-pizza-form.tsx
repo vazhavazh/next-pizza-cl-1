@@ -8,15 +8,15 @@ import {
 	PizzaType,
 	pizzaTypesArr,
 } from "@/shared/constants/pizza";
-import { Ingredient } from "@prisma/client";
+import { Ingredient, ProductVariant } from "@prisma/client";
+import { useSet } from "react-use";
 
 interface ChoosePizzaFormProps {
 	imageUrl: string;
 	name: string;
 	ingredients: Ingredient[];
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	items?: any[];
-	onClickAdd?: VoidFunction;
+	items: ProductVariant[];
+	onClickAddCart?: VoidFunction;
 	className?: string;
 }
 
@@ -25,23 +25,28 @@ export const ChoosePizzaForm: React.FC<ChoosePizzaFormProps> = ({
 	name,
 	ingredients,
 	items,
-	onClickAdd,
+	onClickAddCart,
 	className,
 }) => {
 	const [size, setSize] = React.useState<PizzaSize>(20);
 	const [type, setType] = React.useState<PizzaType>(1);
+	const [selectedIngredients, { toggle: addIngredient }] = useSet(
+		new Set<number>([]),
+	);
 	const textDetails = "30 cm,  traditional dough 30, 590 g";
-	const totalPrice = 35;
-	console.log(ingredients);
+	console.log(items)
+	const pizzaPrice = items.find(
+		(item) => item.pizzaType === type && item.size === size,
+	)?.price;
+	const totalPrice = pizzaPrice;
+
 	return (
 		<div className={cn(className, "flex flex-1")}>
-			
-				<PizzaImage
-				className="mb-12"
-					src={imageUrl}
-					size={size}
-				/>
-			
+			<PizzaImage
+				// className="-mt-20 "
+				src={imageUrl}
+				size={size}
+			/>
 
 			<div className='w-[490px] bg-[#f7f6f5] p-7'>
 				<Title
@@ -71,7 +76,8 @@ export const ChoosePizzaForm: React.FC<ChoosePizzaFormProps> = ({
 								imageUrl={ingredient.imageUrl}
 								name={ingredient.name}
 								price={ingredient.price}
-								onClick={onClickAdd}
+								onClick={() => addIngredient(ingredient.id)}
+								active={selectedIngredients.has(ingredient.id)}
 							/>
 						))}
 					</div>
@@ -85,4 +91,4 @@ export const ChoosePizzaForm: React.FC<ChoosePizzaFormProps> = ({
 };
 
 
-09:27:43
+09:36:42

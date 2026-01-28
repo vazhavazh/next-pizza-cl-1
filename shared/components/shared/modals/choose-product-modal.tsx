@@ -27,7 +27,7 @@ export const ChooseProductModal: React.FC<ChooseProductModalProps> = ({
 			onOpenChange={() => router.back()}>
 			<DialogContent
 				className={cn(
-					"p-0 w-[1060px] max-w-[1060px] min-h-[500px] max-h-[650px] bg-white overflow-hidden items-start",
+					"p-0 w-[1060px] max-w-[1060px] min-h-[500px]  bg-white overflow-hidden scale-[0.8]",
 					className,
 				)}>
 				<VisuallyHidden.Root>
@@ -38,6 +38,7 @@ export const ChooseProductModal: React.FC<ChooseProductModalProps> = ({
 						imageUrl={product.imageUrl}
 						name={product.name}
 						ingredients={product.ingredients}
+						items={product.productVariants}
 					/>
 				) : (
 					<ChooseProductForm
@@ -49,3 +50,5 @@ export const ChooseProductModal: React.FC<ChooseProductModalProps> = ({
 		</Dialog>
 	);
 };
+
+// 09:02:22
